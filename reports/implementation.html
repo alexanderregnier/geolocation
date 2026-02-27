@@ -20,18 +20,31 @@
       };
     </script>
     <style>
+      .pass,
+      .fail,
+      .manual {
+        color: white;
+      }
       .pass {
         background-color: green;
-        color: white;
       }
       .fail {
         background-color: red;
-        color: white;
       }
+      .manual {
+        background-color: #1976D2;
+      }
+      .pass a,
+      .pass a:link,
+      .pass a:visited,
       .fail a,
       .fail a:link,
-      .fail a:visited {
+      .fail a:visited,
+      .manual a,
+      .manual a:link,
+      .manual a:visited {
         color: white !important;
+        text-decoration: underline;
       }
     </style>
     <title>
@@ -41,7 +54,9 @@
   <body>
     <section id="abstract">
       <p>
-        This is an implementation report for [[Geolocation]].
+        This is an implementation report for the <a href=
+        "https://www.w3.org/TR/2025/REC-geolocation-20251029/">29 October
+        2025</a> W3C Recommendation of [[Geolocation]].
       </p>
     </section>
     <h2>
@@ -49,6 +64,10 @@
     </h2>
     <p>
       The following tests verify conformance to [[Geolocation]].
+    </p>
+    <p class="note">
+      For the latest and updated test results, visit <a href=
+      "https://wpt.fyi/results/geolocation">wpt.fyi/results/geolocation</a>.
     </p>
     <h3>
       Status legend
@@ -69,12 +88,17 @@
         specification.
       </dd>
       <dt>
-        UNTESTED
+        MANUAL
       </dt>
       <dd>
-        The test could not be run due to test automation infrastructure
-        limitations (e.g., missing [[webdriver-bidi]] support). This does not
-        indicate an implementation failure.
+        The test could not be run via automated test infrastructure due to
+        platform limitations (e.g., missing [[webdriver-bidi]] support).
+        Conformance was verified through manual testing. This does not indicate
+        an implementation failure. See the <a href=
+        "#candidate-corrections-and-additions">Candidate corrections and
+        additions</a> section for implementation evidence, including links to
+        bug reports, pull requests, and browser release notes that demonstrate
+        implementation.
       </dd>
     </dl>
     <h3>
@@ -116,8 +140,8 @@
       Gecko testing limitations
     </h3>
     <p>
-      Some tests cannot be run in Gecko's (Firefox) wptrunner infrastructure due
-      to missing [[webdriver-bidi]] integration in wptrunner:
+      Some tests cannot be run in Gecko's (Firefox) wptrunner infrastructure
+      due to missing [[webdriver-bidi]] integration in wptrunner:
     </p>
     <dl>
       <dt id="gecko-bidi">
@@ -125,28 +149,26 @@
       </dt>
       <dd>
         <p>
-          Firefox 139+ has implemented [[webdriver-bidi]] commands at the browser
-          level, including `emulation.setGeolocationOverride` (<a href=
-          "https://bugzilla.mozilla.org/show_bug.cgi?id=1954992">Bug 1954992</a>)
-          and BrowsingContext geolocation override (<a href=
-          "https://bugzilla.mozilla.org/show_bug.cgi?id=1951962">Bug 1951962</a>).
-          However, wptrunner's Marionette executor does not yet wire up the BiDi
-          protocol for Firefox.
+          Firefox 139+ has implemented [[webdriver-bidi]] commands at the
+          browser level, including `emulation.setGeolocationOverride` (<a href=
+          "https://bugzilla.mozilla.org/show_bug.cgi?id=1954992">Bug
+          1954992</a>) and BrowsingContext geolocation override (<a href=
+          "https://bugzilla.mozilla.org/show_bug.cgi?id=1951962">Bug
+          1951962</a>). However, wptrunner's Marionette executor does not yet
+          wire up the BiDi protocol for Firefox.
         </p>
         <p>
           <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1984611">Bug
-          1984611</a> tracks adding WebDriver BiDi implementation for Firefox in
-          wptrunner. Until this is resolved, tests requiring the following
+          1984611</a> tracks adding WebDriver BiDi implementation for Firefox
+          in wptrunner. Until this is resolved, tests requiring the following
           testdriver.bidi actions cannot run:
         </p>
         <ul>
-          <li>
-            `test_driver.bidi.permissions.set_permission` - required for tests
-            that need to grant geolocation permissions programmatically.
+          <li>`test_driver.bidi.permissions.set_permission` - required for
+          tests that need to grant geolocation permissions programmatically.
           </li>
-          <li>
-            `test_driver.bidi.emulation.set_geolocation_override` - required for
-            tests that need to mock geolocation data.
+          <li>`test_driver.bidi.emulation.set_geolocation_override` - required
+          for tests that need to mock geolocation data.
           </li>
         </ul>
       </dd>
@@ -155,6 +177,9 @@
       Results table
     </h3>
     <table class="simple data">
+      <caption>
+        Web Platform Tests results for Geolocation API
+      </caption>
       <tr>
         <th>
           Test
@@ -196,9 +221,9 @@
         <td class="fail">
           FAIL
         </td>
-        <td>
+        <td class="manual">
           <a href="#webkit-permissions-policy" title=
-          "no Permissions-Policy header">UNTESTED</a>
+          "no Permissions-Policy header">MANUAL</a>
         </td>
       </tr>
       <tr>
@@ -210,11 +235,11 @@
         <td class="pass">
           PASS
         </td>
-        <td>
-          <a href="#gecko-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+        <td class="manual">
+          <a href="#gecko-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
-        <td>
-          <a href="#webkit-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+        <td class="manual">
+          <a href="#webkit-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
       </tr>
       <tr>
@@ -242,12 +267,12 @@
         <td class="pass">
           PASS
         </td>
-        <td>
-          <a href="#gecko-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+        <td class="manual">
+          <a href="#gecko-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
-        <td>
+        <td class="manual">
           <a href="#webkit-permissions-policy" title=
-          "no Permissions-Policy header">UNTESTED</a>
+          "no Permissions-Policy header">MANUAL</a>
         </td>
       </tr>
       <tr>
@@ -259,12 +284,12 @@
         <td class="pass">
           PASS
         </td>
-        <td>
-          <a href="#gecko-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+        <td class="manual">
+          <a href="#gecko-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
-        <td>
+        <td class="manual">
           <a href="#webkit-permissions-policy" title=
-          "no Permissions-Policy header">UNTESTED</a>
+          "no Permissions-Policy header">MANUAL</a>
         </td>
       </tr>
       <tr>
@@ -307,11 +332,11 @@
         <td class="pass">
           PASS
         </td>
-        <td>
-          <a href="#gecko-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+        <td class="manual">
+          <a href="#gecko-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
-        <td>
-          <a href="#webkit-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+        <td class="manual">
+          <a href="#webkit-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
       </tr>
       <tr>
@@ -322,11 +347,26 @@
         <td class="pass">
           PASS
         </td>
-        <td>
-          <a href="#gecko-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+        <td class="manual">
+          <a href="#gecko-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
+        <td class="manual">
+          <a href="#webkit-bidi" title="requires WebDriver BiDi">MANUAL</a>
+        </td>
+      </tr>
+      <tr>
         <td>
-          <a href="#webkit-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+          <a href=
+          "https://wpt.live/geolocation/heading-stationary.https.html">heading-stationary.https.html</a>
+        </td>
+        <td class="pass">
+          PASS
+        </td>
+        <td class="manual">
+          MANUAL
+        </td>
+        <td class="manual">
+          <a href="#webkit-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
       </tr>
       <tr>
@@ -352,11 +392,11 @@
         <td class="fail">
           FAIL
         </td>
-        <td>
-          <a href="#gecko-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+        <td class="manual">
+          <a href="#gecko-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
-        <td>
-          <a href="#webkit-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+        <td class="manual">
+          <a href="#webkit-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
       </tr>
       <tr>
@@ -397,8 +437,8 @@
         <td class="pass">
           PASS
         </td>
-        <td>
-          <a href="#gecko-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+        <td class="manual">
+          <a href="#gecko-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
         <td class="pass">
           PASS
@@ -412,11 +452,11 @@
         <td class="pass">
           PASS
         </td>
-        <td>
-          <a href="#gecko-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+        <td class="manual">
+          <a href="#gecko-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
-        <td>
-          <a href="#webkit-bidi" title="requires WebDriver BiDi">UNTESTED</a>
+        <td class="manual">
+          <a href="#webkit-bidi" title="requires WebDriver BiDi">MANUAL</a>
         </td>
       </tr>
       <tr>
@@ -464,6 +504,141 @@
         </td>
         <td class="pass">
           PASS
+        </td>
+      </tr>
+    </table>
+    <h2 id="candidate-corrections-and-additions">
+      Candidate corrections and additions
+    </h2>
+    <p>
+      Since [[Geolocation]] became a W3C Recommendation on 01 September 2022,
+      the specification received candidate corrections and additions. This
+      section documents the substantive changes that resulted in implementation
+      updates. Where automated tests could not be run due to test
+      infrastructure limitations, conformance was verified manually.
+    </p>
+    <table class="simple data">
+      <caption>
+        Implementation status of candidate corrections and additions
+      </caption>
+      <tr>
+        <th>
+          Change
+        </th>
+        <th>
+          Description
+        </th>
+        <th>
+          Chromium
+        </th>
+        <th>
+          Gecko
+        </th>
+        <th>
+          WebKit
+        </th>
+        <th>
+          Test
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <a href=
+          "https://www.w3.org/TR/2025/REC-geolocation-20251029/#a1">a1</a>,
+          <a href=
+          "https://www.w3.org/TR/2025/REC-geolocation-20251029/#a2">a2</a>
+        </td>
+        <td data-cite="geolocation">
+          {{GeolocationPosition}}'s {{GeolocationPosition/toJSON()}} and
+          {{GeolocationCoordinates}}'s {{GeolocationCoordinates/toJSON()}}
+          methods
+        </td>
+        <td class="pass">
+          <a href=
+          "https://chromium-review.googlesource.com/c/chromium/src/+/5446324">Chrome
+          126+</a>
+        </td>
+        <td class="pass">
+          <a href=
+          "https://bugzilla.mozilla.org/show_bug.cgi?id=1890706">Firefox
+          129+</a>
+        </td>
+        <td class="pass">
+          <a href="https://github.com/WebKit/WebKit/pull/27063">Safari 18+</a>
+        </td>
+        <td>
+          <a href=
+          "https://wpt.live/geolocation/tojson.https.window.html">tojson.https.window.html</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a href=
+          "https://www.w3.org/TR/2025/REC-geolocation-20251029/#a4">a4</a>
+        </td>
+        <td>
+          Emulated position data for automation ([[webdriver-bidi]]
+          <code>emulation.setGeolocationOverride</code> command)
+        </td>
+        <td class="pass">
+          <a href="https://issues.chromium.org/issues/407577194">Chromium</a>
+        </td>
+        <td class="pass">
+          <a href=
+          "https://bugzilla.mozilla.org/show_bug.cgi?id=1954992">Gecko</a>
+        </td>
+        <td class="fail">
+          <a href="https://webkit.org/b/291197">Not implemented</a>
+        </td>
+        <td>
+          <a href=
+          "https://wpt.live/geolocation/getCurrentPosition-success.https.html">getCurrentPosition-success.https.html</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a href=
+          "https://www.w3.org/TR/2025/REC-geolocation-20251029/#c7">c7</a>
+        </td>
+        <td>
+          Added missing step to check for [=non-secure contexts=] and return
+          PERMISSION_DENIED
+        </td>
+        <td class="pass">
+          Already conforming
+        </td>
+        <td class="pass">
+          Already conforming
+        </td>
+        <td class="pass">
+          Already conforming
+        </td>
+        <td>
+          <a href=
+          "http://wpt.live/geolocation/non-secure-contexts.http.html">non-secure-contexts.http.html</a>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <a href=
+          "https://www.w3.org/TR/2025/REC-geolocation-20251029/#c9">c9</a>
+        </td>
+        <td data-cite="geolocation">
+          {{GeolocationCoordinates/heading}} is <code>null</code> when
+          stationary (previously <code>NaN</code>)
+        </td>
+        <td class="pass">
+          Already conforming
+        </td>
+        <td class="pass">
+          Already conforming
+        </td>
+        <td class="pass">
+          Already conforming
+        </td>
+        <td>
+          <a href=
+          "https://wpt.live/geolocation/heading-stationary.https.html">heading-stationary.https.html</a>
         </td>
       </tr>
     </table>
